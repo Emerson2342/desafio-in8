@@ -1,0 +1,31 @@
+### get cart
+GET http://localhost:3000/cart
+
+### get product
+GET http://localhost:3000/cart/ENIpcDhrD-SRr3hBllKJK
+
+
+### add produt
+POST http://localhost:3000/cart
+Content-Type: application/json
+
+{
+    "productId": "1",
+    "name": "Produto Teste 1",
+    "price": 99.9,
+    "quantity": 2,
+    "img": "ffdfdf"
+}
+
+### update cart
+PATCH http://localhost:3000/cart/3Ts1ZT4cYzxPIuAnw5MeP
+Content-Type: application/json
+
+{   
+    "quantity": 200
+}
+
+### delete product
+DELETE  http://localhost:3000/cart/ENIpcDhrD-SRr3hBllKJK
+
+

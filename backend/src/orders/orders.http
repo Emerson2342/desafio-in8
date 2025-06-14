@@ -1,0 +1,6 @@
+### get orders
+GET http://localhost:3000/orders
+
+### get product
+GET http://localhost:3000/orders/ENIpcDhrD-SRr3hBllKJK
+

@@ -6,6 +6,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Cart } from './cart/entities/cart.entity';
 import { OrdersModule } from './orders/orders.module';
 import { Order } from './orders/entities/order.entity';
+import { HttpModule } from '@nestjs/axios';
+import { ProductsModule } from './products/products.module';
 
 @Module({
   imports: [
@@ -13,13 +15,16 @@ import { Order } from './orders/entities/order.entity';
       type: 'sqlite',
       database: 'db.sqlite',
       entities: [Cart, Order],
-      synchronize: true
+      synchronize: true,
     }),
 
     CartModule,
 
-    OrdersModule],
+    OrdersModule,
+
+    ProductsModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}

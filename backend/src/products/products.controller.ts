@@ -9,7 +9,11 @@ export class ProductsController {
 
   @Get()
   async getProducts(@Query() paginationDTO: PaginationDto) {
-    const { page, limit } = paginationDTO;
-    return this.productsService.getAllProducts(page, limit);
+    return this.productsService.getAllProducts(paginationDTO);
+  }
+
+  @Get('filters')
+  async getFilters() {
+    return this.productsService.getProductFilters();
   }
 }

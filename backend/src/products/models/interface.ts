@@ -1,5 +1,12 @@
 import { Type } from 'class-transformer';
-import { IsInt, Min } from 'class-validator';
+import {
+  IsIn,
+  IsInt,
+  IsNumberString,
+  IsOptional,
+  IsString,
+  Min,
+} from 'class-validator';
 
 export interface Product {
   id: string;
@@ -43,8 +50,29 @@ export class PaginationDto {
   @IsInt()
   @Min(1)
   page: number;
+
   @Type(() => Number)
   @IsInt()
   @Min(1)
   limit: number;
+
+  @IsOptional()
+  @IsString()
+  readonly category?: string;
+
+  @IsOptional()
+  @IsString()
+  readonly material?: string;
+
+  @IsOptional()
+  @IsNumberString()
+  minPrice?: string;
+
+  @IsOptional()
+  @IsNumberString()
+  maxPrice?: string;
+
+  @IsOptional()
+  @IsIn(['price', 'name'])
+  orderBy?: 'price' | 'name';
 }

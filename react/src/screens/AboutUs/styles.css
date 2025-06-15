@@ -1,0 +1,17 @@
+.main-about {
+  align-items: center;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+}
+
+.title-about-us {
+  font-size: 24px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.text {
+  display: block;
+  margin: 30px;
+}

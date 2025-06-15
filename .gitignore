@@ -118,3 +118,4 @@ temp/
 # Jest
 coverage/
 
+package-lock.json

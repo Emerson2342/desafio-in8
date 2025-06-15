@@ -1,0 +1,44 @@
+@media screen and (max-width: 645px) {
+  .header {
+    flex-direction: column !important;
+  }
+}
+
+.header {
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  background-color: #072e5b;
+  border-bottom-left-radius: 35px;
+  border-bottom-right-radius: 35px;
+  color: #fff;
+  flex-direction: row;
+  display: flex;
+}
+.text-title {
+  font-size: 2rem;
+  text-align: center;
+}
+.nav-links {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.nav-button {
+  background-color: transparent;
+  border: none;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.nav-button:hover,
+.nav-button.active {
+  cursor: pointer;
+  background-color: white;
+  color: #072e5b;
+}

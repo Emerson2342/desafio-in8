@@ -2,8 +2,11 @@
 GET http://localhost:3000/cart
 
 ### get product
-GET http://localhost:3000/cart/ENIpcDhrD-SRr3hBllKJK
+GET http://localhost:3000/cart/09a44170-61c9-4682-8d6e-7bcfeb95bc1a
 
+
+###
+GET http://localhost:3000/cart/by-product/1/br
 
 ### add produt
 POST http://localhost:3000/cart
@@ -14,8 +17,21 @@ Content-Type: application/json
     "name": "Produto Teste 1",
     "price": 99.9,
     "quantity": 2,
-    "img": "ffdfdf"
+    "img": "ffdfdf",
+    "origin":"br"
 }
+
+
+
+###
+PATCH http://localhost:3000/cart/by-product/1/br
+Content-Type: application/json
+
+{
+  "quantity": 4
+}
+
+
 
 ### update cart
 PATCH http://localhost:3000/cart/3Ts1ZT4cYzxPIuAnw5MeP

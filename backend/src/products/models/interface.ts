@@ -16,6 +16,7 @@ export interface Product {
   description: string;
   price: string;
   image: string;
+  origin: string;
 }
 
 export interface ProductFromBR {

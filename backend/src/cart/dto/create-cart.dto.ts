@@ -1,23 +1,34 @@
-import { IsNotEmpty, IsNumber, IsOptional, IsString, Min } from "class-validator";
+import {
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+  Min,
+} from 'class-validator';
 
 export class CreateCartDto {
-    @IsString()
-    @IsNotEmpty()
-    productId: string;
+  @IsString()
+  @IsNotEmpty()
+  productId: string;
 
-    @IsString()
-    @IsNotEmpty()
-    name: string;
+  @IsString()
+  @IsNotEmpty()
+  name: string;
 
-    @IsNumber()
-    @IsNotEmpty()
-    price: number;
+  @IsNumber()
+  @IsNotEmpty()
+  price: number;
 
-    @IsOptional()
-    @IsNumber()
-    @Min(1)
-    quantity: number;
+  @IsOptional()
+  @IsNumber()
+  @Min(1)
+  quantity: number;
 
-    @IsString()
-    img: string;
+  @IsString()
+  @IsNotEmpty()
+  img: string;
+
+  @IsString()
+  @IsNotEmpty()
+  origin: string;
 }

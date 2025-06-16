@@ -6,4 +6,14 @@ export interface Product {
   description: string;
   price: string;
   image: string;
+  origin: string;
+}
+
+export interface Cart {
+  produtId: string;
+  name: string;
+  price: number;
+  quantity: number;
+  img: string;
+  origin: string;
 }

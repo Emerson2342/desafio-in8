@@ -2,9 +2,15 @@ import "./product.css";
 import type { Product } from "../../models/interfaces";
 import { PriceBr } from "../../utils/priceFormatter";
 
-export function ProductCard({ product }: { product: Product }) {
+export function ProductCard({
+  product,
+  onSelect,
+}: {
+  product: Product;
+  onSelect: () => void;
+}) {
   return (
-    <div key={product.id} className="card-container">
+    <div key={product.id} className="card-container" onClick={() => onSelect()}>
       <h3 style={{ textAlign: "center" }}>{product.name}</h3>
       <div className="content-card">
         <img
@@ -17,6 +23,7 @@ export function ProductCard({ product }: { product: Product }) {
         <div className="text-container">
           <div>{product.material}</div>
           <div>{product.category}</div>
+          <div>{product.origin}</div>
           <strong>{PriceBr(product.price)}</strong>
         </div>
       </div>

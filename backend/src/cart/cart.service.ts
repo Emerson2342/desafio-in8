@@ -9,9 +9,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 export class CartService {
   constructor(
     @InjectRepository(Cart)
-    private readonly repository: Repository<Cart>
-  ) { }
-
+    private readonly repository: Repository<Cart>,
+  ) {}
 
   create(dto: CreateCartDto) {
     const cart = this.repository.create(dto);
@@ -26,14 +25,26 @@ export class CartService {
     return this.repository.findOneBy({ id });
   }
 
+  findByProductId(productId: string, origin: string) {
+    return this.repository.findOneBy({ productId, origin });
+  }
 
+  async updateByProduct(productId: string, origin: string, dto: UpdateCartDto) {
+    const cart = await this.repository.findOneBy({ productId, origin });
+    if (!cart) return null;
+
+    this.repository.merge(cart, dto);
+    return this.repository.save(cart);
+  }
 
   async update(id: string, dto: UpdateCartDto) {
     const cart = await this.repository.findOneBy({ id });
     if (cart) {
       this.repository.merge(cart, dto);
       return this.repository.save(cart);
-    } else { return null }
+    } else {
+      return null;
+    }
   }
 
   async remove(id: string) {

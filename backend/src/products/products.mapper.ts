@@ -10,6 +10,7 @@ export function prodFromBR(brProd: ProductFromBR[]): Product[] {
     description: p.descricao ?? '',
     image: p.imagem ?? '',
     price: p.preco ?? '0',
+    origin: 'br',
   }));
 }
 
@@ -23,5 +24,6 @@ export function prodFromEU(euProd: ProdructFromEU[]): Product[] {
     description: p.description ?? '',
     image: p.gallery[0] ?? '',
     price: p.price ?? '0',
+    origin: 'eu',
   }));
 }

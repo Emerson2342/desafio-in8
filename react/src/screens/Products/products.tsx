@@ -1,8 +1,9 @@
 import "./styles.css";
 import { useEffect, useState } from "react";
-import type { Product } from "../../models/interfaces";
 import CircularProgress from "@mui/material/CircularProgress";
 import { ProductCard } from "../../components/cards/product";
+import ProductDetailsModal from "../../components/productDetails";
+import type { Product } from "../../models/interfaces";
 
 export function Products() {
   const [products, setProducts] = useState<Product[] | []>([]);
@@ -10,6 +11,7 @@ export function Products() {
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
   const limit = 12;
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   async function fetchProducts(page: number) {
     try {
@@ -29,6 +31,7 @@ export function Products() {
       setLoading(false);
     }
   }
+
   useEffect(() => {
     fetchProducts(page);
   }, [page]);
@@ -46,8 +49,20 @@ export function Products() {
             <>
               <div className="products-grid">
                 {products.map((product) => (
-                  <ProductCard key={product.id} product={product} />
+                  <ProductCard
+                    key={product.id}
+                    product={product}
+                    onSelect={() => {
+                      setSelectedProduct(product);
+                    }}
+                  />
                 ))}
+                {selectedProduct && (
+                  <ProductDetailsModal
+                    product={selectedProduct}
+                    onClose={() => setSelectedProduct(null)}
+                  />
+                )}
               </div>
 
               <div className="pagination">

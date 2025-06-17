@@ -17,3 +17,8 @@ export interface Cart {
   img: string;
   origin: string;
 }
+
+export interface ProductType {
+  categories: string[];
+  materials: string[];
+}

@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
-import type { Cart, Product } from "../models/interfaces";
-import { BR_SEARCH, EU_SEARCH } from "../api/api";
+import type { Cart, Product } from "../../models/interfaces";
+import { BR_SEARCH, EU_SEARCH } from "../../api/api";
 import "./productDetails.css";
-import { PriceBr } from "../utils/priceFormatter";
+import { PriceBr } from "../../utils/priceFormatter";
 
 function ProductDetailsModal({
   product,

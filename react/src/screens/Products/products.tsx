@@ -1,9 +1,11 @@
-import "./styles.css";
+
+import "./productStyles.css"
 import { useEffect, useState } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
 import { ProductCard } from "../../components/cards/product";
-import ProductDetailsModal from "../../components/productDetails";
-import type { Product } from "../../models/interfaces";
+import type { Product, ProductType } from "../../models/interfaces";
+import ProductDetailsModal from "../../components/modals/productDetails";
+import { Filters } from "../../components/filters/fitler";
 
 export function Products() {
   const [products, setProducts] = useState<Product[] | []>([]);
@@ -12,12 +14,17 @@ export function Products() {
   const [loading, setLoading] = useState(false);
   const limit = 12;
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [productType, setProductType] = useState<ProductType>();
+  const [customQuery, setCustomQuery] = useState<string | null>(null);
 
   async function fetchProducts(page: number) {
     try {
       setLoading(true);
+      const queryParams = customQuery
+        ? `${customQuery}&page=${page}&limit=${limit}`
+        : `page=${page}&limit=${limit}`;
       const response = await fetch(
-        `http://localhost:3000/products?page=${page}&limit=${limit}`
+        `http://localhost:3000/products?${queryParams}`
       );
       const data = await response.json();
       // alert(JSON.stringify(data, null, 2));
@@ -32,9 +39,26 @@ export function Products() {
     }
   }
 
+  async function fetchProductTypes() {
+    try {
+      setLoading(true);
+      const response = await fetch(
+        `http://localhost:3000/products/filters`
+      );
+      const data = await response.json() as ProductType;
+      setProductType(data);
+      console.log(JSON.stringify(data, null, 2))
+    } catch (e) {
+      console.log("Erro ao buscar os tipos dos produtos - " + e);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   useEffect(() => {
     fetchProducts(page);
-  }, [page]);
+    fetchProductTypes();
+  }, [page, customQuery]);
 
   return (
     <div className="product-container">
@@ -44,9 +68,12 @@ export function Products() {
       ) : (
         <>
           {products.length == 0 ? (
-            <span>Nenhum produto encontrado</span>
+            <div>
+              <span>Nenhum produto encontrado</span>
+            </div>
           ) : (
             <>
+              <Filters productType={productType} queryProps={(queryString: string) => setCustomQuery(queryString)} />
               <div className="products-grid">
                 {products.map((product) => (
                   <ProductCard

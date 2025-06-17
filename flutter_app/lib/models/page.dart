@@ -3,7 +3,7 @@ class PageModel {
   final int totalPages;
   final int limit;
   final int total;
-  final List<Product> data;
+  final List<ProductModel> data;
 
   PageModel(
       {required this.page,
@@ -19,13 +19,13 @@ class PageModel {
       limit: json['limit'],
       total: json['total'],
       data: ((json['data'] ?? []) as List)
-          .map((d) => Product.fromJson(d))
+          .map((d) => ProductModel.fromJson(d))
           .toList(),
     );
   }
 }
 
-class Product {
+class ProductModel {
   final String id;
   final String name;
   final String category;
@@ -35,7 +35,7 @@ class Product {
   final String price;
   final String origin;
 
-  Product(
+  ProductModel(
       {required this.id,
       required this.name,
       required this.category,
@@ -45,8 +45,8 @@ class Product {
       required this.price,
       required this.origin});
 
-  factory Product.fromJson(Map<String, dynamic> json) {
-    return Product(
+  factory ProductModel.fromJson(Map<String, dynamic> json) {
+    return ProductModel(
       id: json['id'],
       name: json['name'],
       category: json['category'],

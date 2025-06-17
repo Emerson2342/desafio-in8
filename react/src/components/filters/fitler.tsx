@@ -26,8 +26,6 @@ export function Filters({ productType, queryProps }: Props) {
 
 
         queryProps(query.toString());
-        alert(query);
-        return;
     };
 
     return (

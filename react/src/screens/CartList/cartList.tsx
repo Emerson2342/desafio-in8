@@ -41,7 +41,7 @@ export function CartPage() {
           </div>
 
           {cartList.map((item, index) => {
-            return <ItemCart key={index} item={item} />;
+            return <ItemCart key={index} item={item} onDelete={fetchCarts} />;
           })}
         </>
       ) : (

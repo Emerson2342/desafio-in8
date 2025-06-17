@@ -47,7 +47,6 @@ export function Products() {
       );
       const data = await response.json() as ProductType;
       setProductType(data);
-      console.log(JSON.stringify(data, null, 2))
     } catch (e) {
       console.log("Erro ao buscar os tipos dos produtos - " + e);
     } finally {

@@ -21,8 +21,8 @@ export function ProductCard({
           alt={product.name}
         />
         <div className="text-container">
-          <div>{product.material}</div>
           <div>{product.category}</div>
+          <div>{product.material}</div>
           <div>{product.origin}</div>
           <strong>{PriceBr(product.price)}</strong>
         </div>

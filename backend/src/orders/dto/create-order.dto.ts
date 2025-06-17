@@ -13,10 +13,12 @@ export class CreateOrderDto {
     @IsNumber()
     total: number;
 
+    @IsNumber()
+    quantity: number;
+
     @IsDate()
     @Type(() => Date)
     createdAt: Date;
-
 
     @IsString()
     @IsNotEmpty()

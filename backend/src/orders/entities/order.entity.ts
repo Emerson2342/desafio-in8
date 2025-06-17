@@ -1,3 +1,4 @@
+import { IsNumber } from "class-validator";
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('orders')
@@ -17,6 +18,9 @@ export class Order {
 
     @Column('decimal')
     total: number;
+
+    @Column()
+    quantity: number;
 
     @CreateDateColumn()
     createdAt: Date;

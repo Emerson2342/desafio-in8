@@ -23,3 +23,13 @@ export interface ProductType {
   categories: string[];
   materials: string[];
 }
+
+export interface Order {
+  items: Cart[];
+  total: number;
+  createdAt: Date;
+  name: string;
+  email: string;
+  quantity: number;
+
+}

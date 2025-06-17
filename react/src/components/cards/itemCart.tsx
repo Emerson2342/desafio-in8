@@ -1,30 +1,34 @@
 import { useEffect, useMemo, useState } from "react";
 import type { Cart } from "../../models/interfaces";
 import { PriceBr } from "../../utils/priceFormatter";
-import { Pencil, FloppyDisk, Trash, ShoppingCartSimple } from "phosphor-react";
+import { Pencil, FloppyDisk, Trash, CheckSquare, Square } from "phosphor-react";
 import "./itemCart.css";
 import { CircularProgress } from "@mui/material";
 
 
 type ItemCartProps = {
   item: Cart;
-  onDelete: () => Promise<void>;
+  onChange: () => Promise<void>;
+  onToggleBuy: (checked: boolean) => void;
 };
-export function ItemCart({ item, onDelete }: ItemCartProps) {
+export function ItemCart({ item, onChange, onToggleBuy }: ItemCartProps) {
 
   const [edit, setEdit] = useState(false);
   const [quantity, setQuantity] = useState(item.quantity);
   const [editing, setEditing] = useState(false);
+  const [selected, setSelected] = useState(false);
+
+  const toggleSelect = () => {
+    const newState = !selected;
+    setSelected(newState);
+    onToggleBuy(newState);
+  };
+
 
   const finalPrice = useMemo(() => {
     const final = parseFloat(item?.price.toString() ?? "0") * quantity;
     return final;
   }, [quantity]);
-
-
-  useEffect(() => {
-    console.log(JSON.stringify(item));
-  })
 
   const handleEdit = async () => {
     setEdit(!edit);
@@ -48,16 +52,14 @@ export function ItemCart({ item, onDelete }: ItemCartProps) {
             "Erro ao editar produto no carrinho - " + response.text
           );
         }
+        await onChange();
       } catch (e) {
         console.log("Erro ao editar carrinho - " + e);
         throw new Error(
           "Erro ao editar produto no carrinho - " + e
         );
       } finally {
-        setTimeout(() => {
-
-          setEditing(false);
-        }, 750)
+        setEditing(false);
       }
     }
   }
@@ -76,7 +78,7 @@ export function ItemCart({ item, onDelete }: ItemCartProps) {
           "Erro ao apagar produto no carrinho - " + response.text
         );
       }
-      await onDelete();
+      await onChange();
     } catch (e) {
       console.log("Erro ao apagr carrinho - " + e);
       throw new Error(
@@ -89,12 +91,11 @@ export function ItemCart({ item, onDelete }: ItemCartProps) {
     }
   }
 
+
   return (
     <div>
       {editing ? <div className="loading">
-
         <CircularProgress size={23}
-
         />
       </div>
         :
@@ -144,9 +145,12 @@ export function ItemCart({ item, onDelete }: ItemCartProps) {
             </button>
           </div>
           <div className="table-cell-cart">
-            <button onClick={() => alert(1111)} title="Comprar">
-              <ShoppingCartSimple size={20} weight="bold" />
-            </button>
+            {selected ? (
+              <CheckSquare size={24} weight="bold" onClick={toggleSelect} />
+            ) : (
+              <Square size={24} weight="bold" onClick={toggleSelect} />
+            )}
+
           </div>
         </div>}
 

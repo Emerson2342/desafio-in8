@@ -88,7 +88,7 @@ function ProductDetailsModal({
           }),
         });
         if (!response.ok) {
-          const errorBody = await response.text(); // ou .json() se souber que é JSON
+          const errorBody = await response.text();
           throw new Error(`Erro ao adicionar ao carrinho: ${errorBody}`);
         }
       }

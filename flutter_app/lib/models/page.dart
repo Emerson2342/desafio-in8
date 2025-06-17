@@ -1,0 +1,72 @@
+class PageModel {
+  final int page;
+  final int totalPages;
+  final int limit;
+  final int total;
+  final List<Product> data;
+
+  PageModel(
+      {required this.page,
+      required this.totalPages,
+      required this.limit,
+      required this.total,
+      required this.data});
+
+  factory PageModel.fromJson(Map<String, dynamic> json) {
+    return PageModel(
+      page: json['page'],
+      totalPages: json['totalPages'],
+      limit: json['limit'],
+      total: json['total'],
+      data: ((json['data'] ?? []) as List)
+          .map((d) => Product.fromJson(d))
+          .toList(),
+    );
+  }
+}
+
+class Product {
+  final String id;
+  final String name;
+  final String category;
+  final String material;
+  final String description;
+  final String image;
+  final String price;
+  final String origin;
+
+  Product(
+      {required this.id,
+      required this.name,
+      required this.category,
+      required this.material,
+      required this.description,
+      required this.image,
+      required this.price,
+      required this.origin});
+
+  factory Product.fromJson(Map<String, dynamic> json) {
+    return Product(
+      id: json['id'],
+      name: json['name'],
+      category: json['category'],
+      material: json['material'],
+      description: json['description'],
+      image: json['image'],
+      price: json['price'],
+      origin: json['origin'],
+    );
+  }
+}
+
+class FiltersModel {
+  final List<String> categories;
+  final List<String> materials;
+
+  FiltersModel({required this.categories, required this.materials});
+
+  factory FiltersModel.fromJson(Map<String, dynamic> json) {
+    return FiltersModel(
+        categories: json['categories'], materials: json['materials']);
+  }
+}

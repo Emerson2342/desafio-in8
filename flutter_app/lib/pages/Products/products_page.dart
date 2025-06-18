@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/models/page.dart';
+import 'package:flutter_app/pages/Products/widgets/pagination_widget.dart';
 import 'package:flutter_app/pages/Products/widgets/product_item_card_widget.dart';
 import 'package:flutter_app/services/product_service.dart';
 
@@ -13,28 +14,35 @@ class ProductsPage extends StatefulWidget {
 class _ProductsPageState extends State<ProductsPage> {
   final ProductService productsService = ProductService();
 
-  late List<ProductModel> _products = [];
-  bool _loading = false;
+  late PageModel _pagination;
+  int _currentPage = 1;
 
   @override
   void initState() {
     super.initState();
     _loadProducts();
+    _loadProductsType();
   }
 
   void _loadProducts() async {
-    _loading = true;
-    final page = await productsService.getProducts();
-    _loading = false;
+    final page = await productsService.getProducts(page: _currentPage);
+
     setState(() {
-      _products = page.data;
+      _pagination = page;
+    });
+  }
+
+  void _loadProductsType() async {
+    final options = await productsService.getFilters();
+    setState(() {
+      // _options = options;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: productsService.getProducts(),
+        future: productsService.getProducts(page: _currentPage),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -45,13 +53,38 @@ class _ProductsPageState extends State<ProductsPage> {
           }
           final products = snapshot.data!.data;
 
-          return ListView.builder(
-            padding: const EdgeInsets.all(12),
-            itemCount: products.length,
-            itemBuilder: (context, index) {
-              final product = products[index];
-              return ProductItemCardWidget(product: product);
-            },
+          return Column(
+            children: [
+              Expanded(
+                child: ListView.builder(
+                  padding: const EdgeInsets.all(12),
+                  itemCount: products.length,
+                  itemBuilder: (context, index) {
+                    final product = products[index];
+                    return ProductItemCardWidget(product: product);
+                  },
+                ),
+              ),
+              PaginationWidget(
+                  currentPage: _currentPage,
+                  totalPages: _pagination.totalPages,
+                  onPrevious: () {
+                    if (_currentPage > 1) {
+                      setState(() {
+                        _currentPage--;
+                      });
+                      _loadProducts();
+                    }
+                  },
+                  onNext: () {
+                    if (_currentPage < (_pagination.totalPages)) {
+                      setState(() {
+                        _currentPage++;
+                      });
+                      _loadProducts();
+                    }
+                  })
+            ],
           );
         });
   }

@@ -34,9 +34,6 @@ class HomeTabs extends StatefulWidget {
 class _HomeTabsState extends State<HomeTabs> {
   int _selectedIndex = 0;
 
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-
   static const List<Widget> _widgetOptions = [
     ProductsPage(),
     CartPage(),
@@ -74,7 +71,7 @@ class _HomeTabsState extends State<HomeTabs> {
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Theme.of(context).colorScheme.primary,
-        unselectedItemColor: Colors.blueGrey,
+        unselectedItemColor: Colors.grey,
         onTap: _onItemTapped,
       ),
     );

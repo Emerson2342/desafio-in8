@@ -67,6 +67,7 @@ class FiltersModel {
 
   factory FiltersModel.fromJson(Map<String, dynamic> json) {
     return FiltersModel(
-        categories: json['categories'], materials: json['materials']);
+        categories: List<String>.from(json['categories'] ?? []),
+        materials: List<String>.from(json['materials'] ?? []));
   }
 }

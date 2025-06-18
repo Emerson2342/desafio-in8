@@ -1,10 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/models/page.dart';
+import 'package:flutter_app/pages/Products/widgets/product_br_bottom_sheet_widget.dart';
+import 'package:flutter_app/services/product_service.dart';
 
-class ProductItemCardWidget extends StatelessWidget {
+class ProductItemCardWidget extends StatefulWidget {
   const ProductItemCardWidget({super.key, required this.product});
 
   final ProductModel product;
+
+  @override
+  State<ProductItemCardWidget> createState() => _ProductItemCardWidgetState();
+}
+
+class _ProductItemCardWidgetState extends State<ProductItemCardWidget> {
+  final ProductService productsService = ProductService();
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +28,7 @@ class ProductItemCardWidget extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Column(
         children: [
-          Text(product.name,
+          Text(widget.product.name,
               style:
                   const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
           const SizedBox(height: 4),
@@ -26,9 +40,9 @@ class ProductItemCardWidget extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8),
                   child: Image.network(
-                    "https://picsum.photos/120/120?random=${product.id}",
-                    width: 100,
-                    height: 100,
+                    "https://picsum.photos/75/75?random=${widget.product.id}",
+                    width: 75,
+                    height: 75,
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) => const Icon(
                       Icons.broken_image,
@@ -42,21 +56,26 @@ class ProductItemCardWidget extends StatelessWidget {
                   child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Categoria: ${product.category}",
+                  Text("Categoria: ${widget.product.category}",
                       style: const TextStyle(color: Colors.blueGrey)),
-                  Text("Material: ${product.material}",
+                  Text("Material: ${widget.product.material}",
                       style: const TextStyle(color: Colors.blueGrey)),
                   const SizedBox(height: 4),
-                  Text(product.description,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(fontSize: 14)),
-                  const SizedBox(height: 8),
-                  Text("R\$ ${product.price}",
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).colorScheme.primary))
+                  Text(
+                    "R\$ ${widget.product.price}",
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.primary),
+                  ),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: TextButton(
+                      onPressed: () =>
+                          _showProductBottomSheet(context, widget.product),
+                      child: const Text('Ver mais'),
+                    ),
+                  ),
                 ],
               ))
             ],
@@ -64,5 +83,18 @@ class ProductItemCardWidget extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void _showProductBottomSheet(
+      BuildContext context, ProductModel productIndex) async {
+    if (productIndex.origin == 'br') {
+      final product = await productsService.getProductBRById(productIndex.id);
+      if (!context.mounted) {
+        return;
+      }
+      showModalBottomSheet(
+          context: context,
+          builder: (_) => ProductBrBottomSheetWidget(product: product));
+    }
   }
 }

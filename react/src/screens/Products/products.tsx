@@ -1,5 +1,4 @@
-
-import "./productStyles.css"
+import "./productStyles.css";
 import { useEffect, useState } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
 import { ProductCard } from "../../components/cards/product";
@@ -42,10 +41,8 @@ export function Products() {
   async function fetchProductTypes() {
     try {
       setLoading(true);
-      const response = await fetch(
-        `http://localhost:3000/products/filters`
-      );
-      const data = await response.json() as ProductType;
+      const response = await fetch(`http://localhost:3000/products/filters`);
+      const data = (await response.json()) as ProductType;
       setProductType(data);
     } catch (e) {
       console.log("Erro ao buscar os tipos dos produtos - " + e);
@@ -67,12 +64,28 @@ export function Products() {
       ) : (
         <>
           {products.length == 0 ? (
-            <div>
+            <div style={{ display: "flex", flexDirection: "column" }}>
               <span>Nenhum produto encontrado</span>
+              <button
+                onClick={() => setCustomQuery(null)}
+                style={{
+                  backgroundColor: "#072e5b",
+                  color: "white",
+                  margin: "9px",
+                }}
+              >
+                Voltar
+              </button>
             </div>
           ) : (
             <>
-              <Filters productType={productType} queryProps={(queryString: string) => setCustomQuery(queryString)} />
+              <Filters
+                productType={productType}
+                queryProps={(queryString: string) =>
+                  setCustomQuery(queryString)
+                }
+                clearFilters={() => setCustomQuery(null)}
+              />
               <div className="products-grid">
                 {products.map((product) => (
                   <ProductCard

@@ -102,20 +102,17 @@ class _ProductsPageState extends State<ProductsPage> {
                     setState(() {
                       _currentPage = 1;
                     });
-                    _loadProducts(filters);
                   },
                   lastPage: () {
                     setState(() {
                       _currentPage = _pagination?.totalPages ?? 1;
                     });
-                    _loadProducts(filters);
                   },
                   onPrevious: () {
                     if (_currentPage > 1) {
                       setState(() {
                         _currentPage--;
                       });
-                      _loadProducts(filters);
                     }
                   },
                   onNext: () {
@@ -123,7 +120,6 @@ class _ProductsPageState extends State<ProductsPage> {
                       setState(() {
                         _currentPage++;
                       });
-                      _loadProducts(filters);
                     }
                   })
             ],

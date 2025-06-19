@@ -146,6 +146,7 @@ function ProductDetailsModal({
         </div>
         <div className="button-container">
           <button
+            style={{ backgroundColor: "#072e5b", color: "white" }}
             disabled={adding}
             onClick={() => {
               addToCart();

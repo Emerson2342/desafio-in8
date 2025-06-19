@@ -4,12 +4,3 @@
   border: 1px solid #ccc;
   border-radius: 4px;
 }
-
-.filter-row button {
-  padding: 0.5rem 1rem;
-  background-color: #333;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}

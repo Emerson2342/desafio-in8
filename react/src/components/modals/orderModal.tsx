@@ -45,7 +45,7 @@ export function OrderModal({ items, onChange, handleClose }: ItemOrderProps) {
       }
       await onChange();
     } catch (e) {
-      console.log("Erro ao apagr carrinho - " + e);
+      console.log("Erro ao apagar o carrinho - " + e);
       throw new Error("Erro ao editar apagar no carrinho - " + e);
     }
   };

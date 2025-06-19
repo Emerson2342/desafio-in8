@@ -20,6 +20,7 @@ class ProductService {
       'limit': 12,
       ...?filters?.toQueryParams(),
     };
+    debugPrint('Query Params: $queryParams');
     try {
       final response = await _dio.get(
         'products',

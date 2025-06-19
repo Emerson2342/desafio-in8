@@ -1,10 +1,12 @@
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import "./styles.css";
 
 export function Header() {
   return (
     <header className="header">
-      <h1 className="text-title">ShopEase</h1>
+      <h1 className="text-title" style={{ marginLeft: "15px" }}>
+        ShopEase
+      </h1>
       <nav className="nav-links">
         <NavLink
           to="/"

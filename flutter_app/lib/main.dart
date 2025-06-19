@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
         title: 'Shopping App',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
+            fontFamily: 'QuickSand',
             colorScheme: ColorScheme.fromSeed(
                 seedColor: Color(0xff072e5b), primary: Color(0xff072e5b)),
             useMaterial3: true,

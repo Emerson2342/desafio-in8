@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/models/cart.dart';
 import 'package:flutter_app/models/page.dart';
 import 'package:flutter_app/models/products_model.dart';
 
@@ -10,18 +11,12 @@ class ProductService {
 
   Future<PageModel> getProducts({
     int? page,
-    double? min,
-    double? max,
-    String? material,
-    String? tipo,
+    FiltroModel? filters,
   }) async {
     final queryParams = {
       'page': page,
       'limit': 12,
-      if (min != null) 'min': min,
-      if (max != null) 'max': max,
-      if (material != null && material.isNotEmpty) 'material': material,
-      if (tipo != null && tipo.isNotEmpty) 'tipo': tipo,
+      ...?filters?.toQueryParams(),
     };
     try {
       final response = await _dio.get(
@@ -62,6 +57,42 @@ class ProductService {
       return ProductEUModel.fromJson(response.data);
     } catch (e) {
       debugPrint("Erro ao buscar o produto $id");
+      rethrow;
+    }
+  }
+
+  Future<CartModel?> getProductFromCart(String id, String origin) async {
+    try {
+      final response = await _dio.get("cart/by-product/$id/$origin");
+
+      return CartModel.fromJson(response.data);
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 404) {
+        return null;
+      }
+    } catch (e) {
+      debugPrint("Erro ao buscar o produto $id");
+      rethrow;
+    }
+    return null;
+  }
+
+  Future<CartModel> addToCart(CartModel product) async {
+    try {
+      final response = await _dio.post("cart", data: product.toJson());
+      return CartModel.fromJson(response.data);
+    } catch (e) {
+      debugPrint("Erro ao adicionar o produto ${product.name} no carrinho");
+      rethrow;
+    }
+  }
+
+  Future<void> removeFromCart(String id) async {
+    try {
+      await _dio.delete("cart/$id");
+      return;
+    } catch (e) {
+      debugPrint("Erro ao remover o produto $id do carrinho");
       rethrow;
     }
   }

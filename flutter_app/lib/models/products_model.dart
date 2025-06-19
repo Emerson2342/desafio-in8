@@ -1,10 +1,25 @@
-class ProductEUModel {
+abstract class IProductModel {
+  String get id;
+  String get nome;
+  String get preco;
+  String get imagem;
+}
+
+class ProductEUModel implements IProductModel {
   final bool hasDiscount;
   final String name;
   final String description;
   final String price;
   final String discountValue;
   final DetailsModel details;
+  @override
+  final String id;
+  @override
+  final String imagem;
+  @override
+  String get nome => name;
+  @override
+  String get preco => price;
 
   ProductEUModel(
       {required this.hasDiscount,
@@ -12,7 +27,9 @@ class ProductEUModel {
       required this.description,
       required this.price,
       required this.discountValue,
-      required this.details});
+      required this.details,
+      required this.id,
+      required this.imagem});
 
   factory ProductEUModel.fromJson(Map<String, dynamic> json) {
     return ProductEUModel(
@@ -21,19 +38,23 @@ class ProductEUModel {
       description: json['description'] ?? "",
       price: json['price'] ?? "",
       discountValue: json['discountValue'] ?? "",
-      details: DetailsModel.fromJson(
-        json['details'] ?? [],
-      ),
+      details: DetailsModel.fromJson(json['details'] ?? []),
+      id: json['id'] ?? "1",
+      imagem: "https://picsum.photos/75/75?random=75",
     );
   }
 }
 
-class ProductBRModel {
+class ProductBRModel implements IProductModel {
+  @override
   final String id;
+  @override
   final String nome;
   final String descricao;
   final String categoria;
+  @override
   final String imagem;
+  @override
   final String preco;
   final String material;
   final String departamento;

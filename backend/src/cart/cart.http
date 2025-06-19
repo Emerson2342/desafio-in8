@@ -6,7 +6,7 @@ GET http://localhost:3000/cart/09a44170-61c9-4682-8d6e-7bcfeb95bc1a
 
 
 ###
-GET http://localhost:3000/cart/by-product/1/br
+GET http://localhost:3000/cart/by-product/111/br
 
 ### add produt
 POST http://localhost:3000/cart
@@ -42,6 +42,6 @@ Content-Type: application/json
 }
 
 ### delete product
-DELETE  http://localhost:3000/cart/ENIpcDhrD-SRr3hBllKJK
+DELETE  http://localhost:3000/cart/3630c742-d284-46ea-8d92-39ebbc1de73b
 
 

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/helpers/modal_filters.dart';
 import 'package:flutter_app/models/page.dart';
 import 'package:flutter_app/pages/Products/widgets/pagination_widget.dart';
 import 'package:flutter_app/pages/Products/widgets/product_item_card_widget.dart';
 import 'package:flutter_app/services/product_service.dart';
+import 'package:flutter_app/services/service_locator.dart';
 
 class ProductsPage extends StatefulWidget {
   const ProductsPage({super.key});
@@ -12,7 +14,9 @@ class ProductsPage extends StatefulWidget {
 }
 
 class _ProductsPageState extends State<ProductsPage> {
-  final ProductService productsService = ProductService();
+  final productsService = getIt<ProductService>();
+  FiltroModel? filters;
+  late FiltersModel _filtersList;
 
   late PageModel _pagination;
   int _currentPage = 1;
@@ -20,12 +24,13 @@ class _ProductsPageState extends State<ProductsPage> {
   @override
   void initState() {
     super.initState();
-    _loadProducts();
+    _loadProducts(filters);
     _loadProductsType();
   }
 
-  void _loadProducts() async {
-    final page = await productsService.getProducts(page: _currentPage);
+  void _loadProducts(FiltroModel? filters) async {
+    final page =
+        await productsService.getProducts(page: _currentPage, filters: filters);
 
     setState(() {
       _pagination = page;
@@ -35,14 +40,15 @@ class _ProductsPageState extends State<ProductsPage> {
   void _loadProductsType() async {
     final options = await productsService.getFilters();
     setState(() {
-      // _options = options;
+      _filtersList = options;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: productsService.getProducts(page: _currentPage),
+        future:
+            productsService.getProducts(page: _currentPage, filters: filters),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -55,6 +61,27 @@ class _ProductsPageState extends State<ProductsPage> {
 
           return Column(
             children: [
+              ElevatedButton(
+                  onPressed: () {
+                    openFilterDialog(context, _filtersList,
+                        (FiltroModel filtersToAdd) {
+                      setState(() {
+                        filters = filtersToAdd;
+                        debugPrint(filters.toString());
+                        _currentPage = 1;
+                      });
+                    });
+                  },
+                  child: Text("Filtros")),
+              if (filters != null)
+                ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        filters = null;
+                        _currentPage = 1;
+                      });
+                    },
+                    child: Text("Limpar Filtros")),
               Expanded(
                 child: ListView.builder(
                   padding: const EdgeInsets.all(12),
@@ -68,12 +95,24 @@ class _ProductsPageState extends State<ProductsPage> {
               PaginationWidget(
                   currentPage: _currentPage,
                   totalPages: _pagination.totalPages,
+                  firstPage: () {
+                    setState(() {
+                      _currentPage = 1;
+                    });
+                    _loadProducts(filters);
+                  },
+                  lastPage: () {
+                    setState(() {
+                      _currentPage = _pagination.totalPages;
+                    });
+                    _loadProducts(filters);
+                  },
                   onPrevious: () {
                     if (_currentPage > 1) {
                       setState(() {
                         _currentPage--;
                       });
-                      _loadProducts();
+                      _loadProducts(filters);
                     }
                   },
                   onNext: () {
@@ -81,7 +120,7 @@ class _ProductsPageState extends State<ProductsPage> {
                       setState(() {
                         _currentPage++;
                       });
-                      _loadProducts();
+                      _loadProducts(filters);
                     }
                   })
             ],

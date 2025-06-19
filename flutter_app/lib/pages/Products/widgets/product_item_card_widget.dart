@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/models/page.dart';
-import 'package:flutter_app/pages/Products/widgets/product_br_bottom_sheet_widget.dart';
+import 'package:flutter_app/pages/Products/widgets/product_br_widget.dart';
+import 'package:flutter_app/pages/Products/widgets/product_eu_widget.dart';
 import 'package:flutter_app/services/product_service.dart';
+import 'package:flutter_app/services/service_locator.dart';
 
 class ProductItemCardWidget extends StatefulWidget {
   const ProductItemCardWidget({super.key, required this.product});
@@ -13,7 +15,7 @@ class ProductItemCardWidget extends StatefulWidget {
 }
 
 class _ProductItemCardWidgetState extends State<ProductItemCardWidget> {
-  final ProductService productsService = ProductService();
+  final productsService = getIt<ProductService>();
 
   @override
   void initState() {
@@ -95,6 +97,13 @@ class _ProductItemCardWidgetState extends State<ProductItemCardWidget> {
       showModalBottomSheet(
           context: context,
           builder: (_) => ProductBrBottomSheetWidget(product: product));
+    } else {
+      final product = await productsService.getProductEUById(productIndex.id);
+      if (!context.mounted) {
+        return;
+      }
+      showModalBottomSheet(
+          context: context, builder: (_) => ProductEUItem(product: product));
     }
   }
 }

@@ -71,3 +71,36 @@ class FiltersModel {
         materials: List<String>.from(json['materials'] ?? []));
   }
 }
+
+class FiltroModel {
+  final String? categoria;
+  final String? material;
+  final String? min;
+  final String? max;
+  final String? orderBy;
+
+  FiltroModel({
+    this.categoria,
+    this.material,
+    this.min,
+    this.max,
+    this.orderBy,
+  });
+
+  Map<String, dynamic> toQueryParams() {
+    final params = <String, dynamic>{};
+
+    if (min != null) params['minPrice'] = min;
+    if (max != null) params['maxPrice'] = max;
+    if (material?.isNotEmpty == true) params['material'] = material;
+    if (categoria?.isNotEmpty == true) params['category'] = categoria;
+    if (orderBy?.isNotEmpty == true) params['orderBy'] = orderBy;
+
+    return params;
+  }
+
+  @override
+  String toString() {
+    return 'FiltroModel(categoria: $categoria, material: $material, min: $min, max: $max, orderBy: $orderBy)';
+  }
+}

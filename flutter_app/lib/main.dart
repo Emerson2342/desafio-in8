@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/pages/Cart/cart_page.dart';
 import 'package:flutter_app/pages/Orders/orders_page.dart';
 import 'package:flutter_app/pages/Products/products_page.dart';
+import 'package:flutter_app/services/service_locator.dart';
 
 void main() {
+  setupGetIt();
   runApp(const MyApp());
 }
 
@@ -17,7 +19,8 @@ class MyApp extends StatelessWidget {
         title: 'Shopping App',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Color(0xff072e5b)),
+            colorScheme: ColorScheme.fromSeed(
+                seedColor: Color(0xff072e5b), primary: Color(0xff072e5b)),
             useMaterial3: true,
             primaryColor: Color(0xff072e5b)),
         home: HomeTabs());

@@ -9,12 +9,14 @@ class CartItemCard extends StatefulWidget {
   final CartModel cartItem;
   final bool selected;
   final ValueChanged<bool?> onChanged;
+  final VoidCallback updateList;
 
   const CartItemCard(
       {super.key,
       required this.cartItem,
       required this.selected,
-      required this.onChanged});
+      required this.onChanged,
+      required this.updateList});
 
   @override
   State<CartItemCard> createState() => _CartItemCardState();
@@ -116,6 +118,7 @@ class _CartItemCardState extends State<CartItemCard> {
                           if (!context.mounted) {
                             return;
                           }
+                          widget.updateList();
                           showMessage(context, "Produto Atualizado");
                         } catch (e) {
                           showMessage(context, "Erro ao atualizar produto");

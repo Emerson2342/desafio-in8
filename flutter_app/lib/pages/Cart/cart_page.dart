@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/helpers/message_helper.dart';
 import 'package:flutter_app/models/cart.dart';
 import 'package:flutter_app/pages/Cart/widgets/cart_item_widget.dart';
+import 'package:flutter_app/pages/Cart/widgets/purchase_widget.dart';
 import 'package:flutter_app/services/product_service.dart';
 import 'package:flutter_app/services/service_locator.dart';
 
@@ -15,7 +16,7 @@ class CartPage extends StatefulWidget {
 class _CartPageState extends State<CartPage> {
   final productsService = getIt<ProductService>();
   List<CartModel> productsCart = [];
-  Set<String> selectedProductIds = {};
+  List<CartModel> selectedProducts = [];
   late Future<List<CartModel>> _productsCartBuilder;
 
   @override
@@ -32,19 +33,48 @@ class _CartPageState extends State<CartPage> {
     });
   }
 
-  void toggleSelection(String id, bool? selected) {
+  void toggleSelection(CartModel product, bool? selected) {
     debugPrint("Selecionado? - ${selected.toString()}");
     setState(() {
       if (selected == true) {
-        selectedProductIds.add(id);
+        if (!selectedProducts.any((p) => p.id == product.id)) {
+          selectedProducts.add(product);
+        }
       } else {
-        selectedProductIds.remove(id);
+        selectedProducts.removeWhere((p) => p.id == product.id);
       }
     });
   }
 
-  void buySelectedItems() async {
-    debugPrint(selectedProductIds.toString());
+  void buySelectedItems() {
+    showCheckoutBottomSheet(context, (name, email) async {
+      final order = OrderModel(
+        items: selectedProducts,
+        quantity:
+            selectedProducts.fold(0, (total, item) => total + item.quantity),
+        total: selectedProducts.fold(
+            0, (total, item) => total + (item.price * item.quantity)),
+        createdAt: DateTime.now().toUtc(),
+        name: name,
+        email: email,
+      );
+      try {
+        await productsService.purchase(order);
+        for (var i in selectedProducts) {
+          await productsService.delProdFromCart(i.id!);
+        }
+        if (!mounted) return;
+        setState(() {
+          selectedProducts = [];
+          _productsCartBuilder = productsService.getCartProducts();
+        });
+
+        showMessage(context, "Compra feita com sucesso!");
+      } catch (e) {
+        debugPrint("Erro ao efetuar a compra - $e");
+        showMessage(context, "Erro ao efetuar a compra");
+      }
+    });
   }
 
   @override
@@ -67,7 +97,8 @@ class _CartPageState extends State<CartPage> {
                 itemCount: productsCart.length,
                 itemBuilder: (context, index) {
                   final product = productsCart[index];
-                  final isSelected = selectedProductIds.contains(product.id);
+                  final isSelected =
+                      selectedProducts.any((p) => p.id == product.id);
                   return Dismissible(
                     key: ValueKey(product.id),
                     direction: DismissDirection.endToStart,
@@ -91,6 +122,8 @@ class _CartPageState extends State<CartPage> {
                         if (!context.mounted) {
                           return;
                         }
+
+                        selectedProducts.removeWhere((p) => p.id == product.id);
                         showMessage(context, "Produto removido do carrinho!");
                       } catch (e) {
                         if (!context.mounted) {
@@ -106,8 +139,15 @@ class _CartPageState extends State<CartPage> {
                       key: ValueKey(product.id),
                       cartItem: product,
                       selected: isSelected,
+                      updateList: () {
+                        setState(() {
+                          _productsCartBuilder =
+                              productsService.getCartProducts();
+                          toggleSelection(product, false);
+                        });
+                      },
                       onChanged: (bool? selected) =>
-                          toggleSelection(product.id!, selected),
+                          toggleSelection(product, selected),
                     ),
                   );
                 }),

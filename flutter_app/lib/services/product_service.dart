@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/models/cart.dart';
@@ -124,6 +126,29 @@ class ProductService {
       return CartModel.fromJson(response.data);
     } catch (e) {
       debugPrint("Erro ao apagar produto do carrinho - Produto: $e");
+      rethrow;
+    }
+  }
+
+  Future<void> purchase(OrderModel order) async {
+    try {
+      final orderJson = order.toJson();
+      debugPrint('Pedido enviado: ${jsonEncode(orderJson)}');
+      await _dio.post("orders", data: orderJson);
+    } catch (e) {
+      debugPrint("Erro ao finalizar a compra! - $e");
+      rethrow;
+    }
+  }
+
+  Future<List<OrderModel>> getOrders() async {
+    try {
+      final response = await _dio.get("orders");
+      return (response.data as List)
+          .map((i) => OrderModel.fromJson(i))
+          .toList();
+    } catch (e) {
+      debugPrint("Erro ao carregar lista de pedidos - Product Service - $e");
       rethrow;
     }
   }

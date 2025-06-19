@@ -3,3 +3,26 @@ GET http://localhost:3000/orders
 
 ### get product
 GET http://localhost:3000/orders/ENIpcDhrD-SRr3hBllKJK
+
+
+###
+POST http://localhost:3000/orders
+Content-Type: application/json
+
+ {
+ "items": [
+   {
+      "productId": "1",
+      "name": "range of formal shirts",
+      "price": 127.0,
+      "quantity": 6,
+      "img": "https://picsum.photos/75/75?random=1",
+      "origin": "br"
+     }
+  ],
+  "quantity": 6,
+   "total": 762.1,
+  "createdAt": "2025-06-19T19:48:33.672073Z",
+   "name": "testes",
+  "email": "teste@email.com"
+}

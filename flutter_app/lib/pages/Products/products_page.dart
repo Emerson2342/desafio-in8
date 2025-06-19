@@ -31,7 +31,6 @@ class _ProductsPageState extends State<ProductsPage> {
   void _loadProducts(FiltroModel? filters) async {
     final page =
         await productsService.getProducts(page: _currentPage, filters: filters);
-
     setState(() {
       _pagination = page;
     });
@@ -70,7 +69,7 @@ class _ProductsPageState extends State<ProductsPage> {
                         (FiltroModel filtersToAdd) {
                       setState(() {
                         filters = filtersToAdd;
-                        debugPrint(filters.toString());
+                        _loadProducts(filters);
                         _currentPage = 1;
                       });
                     });
@@ -81,6 +80,7 @@ class _ProductsPageState extends State<ProductsPage> {
                     onPressed: () {
                       setState(() {
                         filters = null;
+                        _loadProducts(filters);
                         _currentPage = 1;
                       });
                     },

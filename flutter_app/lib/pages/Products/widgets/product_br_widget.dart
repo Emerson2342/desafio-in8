@@ -5,7 +5,6 @@ import 'package:flutter_app/models/products_model.dart';
 import 'package:flutter_app/services/product_service.dart';
 import 'package:flutter_app/services/service_locator.dart';
 import 'package:flutter_app/widgets/add_remove_button.dart';
-import 'package:intl/intl.dart';
 
 class ProductBrBottomSheetWidget extends StatefulWidget {
   const ProductBrBottomSheetWidget({super.key, required this.product});

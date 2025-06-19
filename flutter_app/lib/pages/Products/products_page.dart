@@ -18,7 +18,7 @@ class _ProductsPageState extends State<ProductsPage> {
   FiltroModel? filters;
   late FiltersModel _filtersList;
 
-  late PageModel _pagination;
+  PageModel? _pagination;
   int _currentPage = 1;
 
   @override
@@ -46,7 +46,7 @@ class _ProductsPageState extends State<ProductsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
+    return FutureBuilder<PageModel>(
         future:
             productsService.getProducts(page: _currentPage, filters: filters),
         builder: (context, snapshot) {
@@ -59,6 +59,9 @@ class _ProductsPageState extends State<ProductsPage> {
           }
           final products = snapshot.data!.data;
 
+          if (_pagination == null) {
+            return const Center(child: CircularProgressIndicator());
+          }
           return Column(
             children: [
               ElevatedButton(
@@ -94,7 +97,7 @@ class _ProductsPageState extends State<ProductsPage> {
               ),
               PaginationWidget(
                   currentPage: _currentPage,
-                  totalPages: _pagination.totalPages,
+                  totalPages: _pagination?.totalPages ?? 1,
                   firstPage: () {
                     setState(() {
                       _currentPage = 1;
@@ -103,7 +106,7 @@ class _ProductsPageState extends State<ProductsPage> {
                   },
                   lastPage: () {
                     setState(() {
-                      _currentPage = _pagination.totalPages;
+                      _currentPage = _pagination?.totalPages ?? 1;
                     });
                     _loadProducts(filters);
                   },
@@ -116,7 +119,7 @@ class _ProductsPageState extends State<ProductsPage> {
                     }
                   },
                   onNext: () {
-                    if (_currentPage < (_pagination.totalPages)) {
+                    if (_currentPage < (_pagination?.totalPages ?? 1)) {
                       setState(() {
                         _currentPage++;
                       });

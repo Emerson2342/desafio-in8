@@ -34,7 +34,7 @@ Content-Type: application/json
 
 
 ### update cart
-PATCH http://localhost:3000/cart/3Ts1ZT4cYzxPIuAnw5MeP
+PATCH http://localhost:3000/cart/93b40cc5-bbcc-4161-9f2b-3fec5c11fb30
 Content-Type: application/json
 
 {   
@@ -42,6 +42,4 @@ Content-Type: application/json
 }
 
 ### delete product
-DELETE  http://localhost:3000/cart/3630c742-d284-46ea-8d92-39ebbc1de73b
-
-
+DELETE  http://localhost:3000/cart/46662d08-3ecd-4420-965b-14f1eaaadf8f

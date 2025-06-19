@@ -96,4 +96,35 @@ class ProductService {
       rethrow;
     }
   }
+
+  Future<List<CartModel>> getCartProducts() async {
+    try {
+      final response = await _dio.get("cart");
+      return (response.data as List).map((i) => CartModel.fromJson(i)).toList();
+    } catch (e) {
+      debugPrint("Erro ao listar produtos do carrinho - $e");
+      return [];
+    }
+  }
+
+  Future<void> delProdFromCart(String id) async {
+    try {
+      await _dio.delete("cart/$id");
+      return;
+    } catch (e) {
+      debugPrint("Erro ao apagar produto do carrinho - Produto: $e");
+      return;
+    }
+  }
+
+  Future<CartModel> updateCart(String id, int newQuantity) async {
+    try {
+      final response =
+          await _dio.patch("cart/$id", data: {"quantity": newQuantity});
+      return CartModel.fromJson(response.data);
+    } catch (e) {
+      debugPrint("Erro ao apagar produto do carrinho - Produto: $e");
+      rethrow;
+    }
+  }
 }

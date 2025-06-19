@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/helpers/string_formatter.dart';
 import 'package:flutter_app/models/cart.dart';
 import 'package:flutter_app/models/products_model.dart';
 import 'package:flutter_app/services/product_service.dart';
 import 'package:flutter_app/services/service_locator.dart';
 import 'package:flutter_app/widgets/add_remove_button.dart';
+import 'package:intl/intl.dart';
 
 class ProductBrBottomSheetWidget extends StatefulWidget {
   const ProductBrBottomSheetWidget({super.key, required this.product});
@@ -54,9 +56,13 @@ class _ProductBrBottomSheetWidgetState
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: Image.network(
-                  "https://picsum.photos/75/75?random=${widget.product.id}",
-                  height: 75,
-                  fit: BoxFit.cover),
+                widget.product.imagem,
+                height: 75,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return const Icon(Icons.broken_image, size: 75);
+                },
+              ),
             ),
             const SizedBox(height: 16),
             Text(
@@ -80,7 +86,7 @@ class _ProductBrBottomSheetWidgetState
             ),
             const SizedBox(height: 16),
             Text(
-              "R\$ ${widget.product.preco}",
+              priceBr(double.parse(widget.product.preco)),
               style: const TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,

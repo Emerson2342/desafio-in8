@@ -33,15 +33,14 @@ class ProductEUModel implements IProductModel {
 
   factory ProductEUModel.fromJson(Map<String, dynamic> json) {
     return ProductEUModel(
-      hasDiscount: json['hasDiscount'] ?? false,
-      name: json['name'] ?? "",
-      description: json['description'] ?? "",
-      price: json['price'] ?? "",
-      discountValue: json['discountValue'] ?? "",
-      details: DetailsModel.fromJson(json['details'] ?? []),
-      id: json['id'] ?? "1",
-      imagem: "https://picsum.photos/75/75?random=75",
-    );
+        hasDiscount: json['hasDiscount'] ?? false,
+        name: json['name'] ?? "",
+        description: json['description'] ?? "",
+        price: json['price'] ?? "",
+        discountValue: json['discountValue'] ?? "",
+        details: DetailsModel.fromJson(json['details'] ?? []),
+        id: json['id'] ?? "1",
+        imagem: "https://picsum.photos/75/75?random=${json['id']}");
   }
 }
 
@@ -76,7 +75,7 @@ class ProductBRModel implements IProductModel {
       nome: json['nome'] ?? "",
       descricao: json['descricao'] ?? "",
       categoria: json['categoria'] ?? "",
-      imagem: json['imagem'] ?? "",
+      imagem: "https://picsum.photos/75/75?random=${json['id']}",
       preco: json['preco'] ?? "",
       material: json['material'] ?? "",
       departamento: json['departamento'] ?? "",

@@ -4,6 +4,7 @@ import 'package:flutter_app/models/products_model.dart';
 import 'package:flutter_app/services/product_service.dart';
 import 'package:flutter_app/services/service_locator.dart';
 import 'package:flutter_app/widgets/add_remove_button.dart';
+import 'package:intl/intl.dart';
 
 class ProductEUItem extends StatefulWidget {
   final ProductEUModel product;
@@ -40,6 +41,8 @@ class _ProductEUItemState extends State<ProductEUItem> {
 
   @override
   Widget build(BuildContext context) {
+    final formatter = NumberFormat.simpleCurrency(locale: 'pt_BR');
+    final precoFormatado = formatter.format(double.parse(widget.product.price));
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: const BoxDecoration(
@@ -51,10 +54,8 @@ class _ProductEUItemState extends State<ProductEUItem> {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
-              child: Image.network(
-                  "https://picsum.photos/75/75?random=${widget.product.id}",
-                  height: 75,
-                  fit: BoxFit.cover),
+              child: Image.network(widget.product.imagem,
+                  height: 75, fit: BoxFit.cover),
             ),
             const SizedBox(height: 16),
             Text(
@@ -77,7 +78,7 @@ class _ProductEUItemState extends State<ProductEUItem> {
             ),
             const SizedBox(height: 16),
             Text(
-              "R\$ ${widget.product.price}",
+              precoFormatado,
               style: const TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,

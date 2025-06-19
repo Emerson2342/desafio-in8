@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/helpers/string_formatter.dart';
 import 'package:flutter_app/models/page.dart';
 import 'package:flutter_app/pages/Products/widgets/product_br_widget.dart';
 import 'package:flutter_app/pages/Products/widgets/product_eu_widget.dart';
@@ -42,7 +43,7 @@ class _ProductItemCardWidgetState extends State<ProductItemCardWidget> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8),
                   child: Image.network(
-                    "https://picsum.photos/75/75?random=${widget.product.id}",
+                    widget.product.image,
                     width: 75,
                     height: 75,
                     fit: BoxFit.cover,
@@ -64,7 +65,7 @@ class _ProductItemCardWidgetState extends State<ProductItemCardWidget> {
                       style: const TextStyle(color: Colors.blueGrey)),
                   const SizedBox(height: 4),
                   Text(
-                    "R\$ ${widget.product.price}",
+                    priceBr(double.parse(widget.product.price)),
                     style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,

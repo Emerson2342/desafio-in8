@@ -27,12 +27,12 @@ class PaginationWidget extends StatelessWidget {
             icon: const Icon(Icons.first_page)),
         IconButton(
             onPressed: currentPage > 1 ? onPrevious : null,
-            icon: const Icon(Icons.arrow_back)),
+            icon: const Icon(Icons.chevron_left)),
         Text("Página $currentPage de $totalPages",
             style: const TextStyle(fontWeight: FontWeight.bold)),
         IconButton(
             onPressed: currentPage < totalPages ? onNext : null,
-            icon: const Icon(Icons.arrow_forward)),
+            icon: const Icon(Icons.chevron_right)),
         IconButton(
             onPressed: currentPage != totalPages ? lastPage : null,
             icon: const Icon(Icons.last_page)),

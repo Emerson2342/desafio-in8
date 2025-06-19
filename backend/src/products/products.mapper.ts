@@ -8,7 +8,7 @@ export function prodFromBR(brProd: ProductFromBR[]): Product[] {
     category: p.categoria ?? '',
     material: p.material ?? '',
     description: p.descricao ?? '',
-    image: p.imagem ?? '',
+    image: `https://picsum.photos/75/75?random=${p.id}`,
     price: p.preco ?? '0',
     origin: 'br',
   }));
@@ -22,7 +22,7 @@ export function prodFromEU(euProd: ProdructFromEU[]): Product[] {
     category: p.details.adjective ?? '',
     material: p.details.material ?? '',
     description: p.description ?? '',
-    image: p.gallery[0] ?? '',
+    image: `https://picsum.photos/75/75?random=${p.id}`,
     price: p.price ?? '0',
     origin: 'eu',
   }));

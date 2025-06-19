@@ -27,7 +27,7 @@ ElevatedButton addRemoveCart(
           name: product.nome,
           price: double.parse(product.preco),
           quantity: 1,
-          img: product.imagem,
+          img: "https://picsum.photos/75/75?random=${product.id}",
           origin: origin,
         );
         productsService.addToCart(cartP);

@@ -54,7 +54,7 @@ class _HomeTabsState extends State<HomeTabs> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Shopping",
+          "ShopEase",
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Color(0xff072e5b),

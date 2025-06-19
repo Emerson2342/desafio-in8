@@ -4,7 +4,7 @@ import "./styles.css";
 export function Header() {
   return (
     <header className="header">
-      <h1 className="text-title">Ease Products</h1>
+      <h1 className="text-title">ShopEase</h1>
       <nav className="nav-links">
         <NavLink
           to="/"
